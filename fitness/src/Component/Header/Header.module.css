@@ -1,0 +1,93 @@
+.d__flex__r {
+    display: flex;
+    flex-direction: row;
+}
+
+.d__flex__c {
+    display: flex;
+    flex-direction: column;
+}
+
+.d__flex__center__align {
+    align-items: center;
+}
+
+.d__flex__justify__btn {
+    justify-content: space-between;
+}
+
+.header__wrapper {
+    padding: 0.5em 2em;
+    background-color: #333;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+}
+
+
+.input__wrapper {
+    position: relative;
+}
+
+.input__style {
+    border: 1px solid rgb(51, 51, 51);
+    border-radius: 0.45em;
+    padding: 0.85em 0.95em;
+}
+
+.input__num__style {
+    width: 70px;
+    margin-right: 2em;
+}
+
+.del__query__btn {
+    position: absolute;
+    top: 12px;
+    right: 15px;
+    border: none;
+    background: none;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: color 0.3s ease-in;
+}
+
+.del__query__btn:hover {
+    color: rgb(176, 174, 174);
+}
+
+.brand__icon {
+    width: 70px;
+}
+
+.user__icon {
+    width: 60px;
+}
+
+.user__btn {
+    border: none;
+    background: none;
+}
+
+@media screen and (max-width: 599px) {
+    .header__wrapper {
+        flex-direction: column;
+    }
+
+    .input__wrapper {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+    }
+
+    .input__num__style {
+        margin: 0em 0em 1em 0em;
+    }
+
+    .header__wrapper > div {
+        margin: 1em 0em
+    }
+
+    .del__query__btn {
+        top: 12px;
+        right: 12px;
+    }
+}
