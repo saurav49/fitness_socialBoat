@@ -31,7 +31,7 @@ const SearchBar = () => {
       <div className={`${styles.d__flex__c} `}>
         {/* <label>Count</label> */}
         <input
-          type="number"
+          type="text"
           name="numRes"
           id="numRes"
           placeholder="Count"

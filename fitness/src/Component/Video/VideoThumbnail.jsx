@@ -10,7 +10,8 @@ const VideoThumbnail = ({ heading, tags, video }) => {
       </video>
       <div className={styles.video__query__details}>
         <p className={styles.query__heading}>
-          Heading: <span>{heading.split(":")[0]}</span>
+          Heading:
+          <span className={styles.query}>{heading.split(":")[0]}</span>
         </p>
         <Tags tags={tags} />
       </div>

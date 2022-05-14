@@ -4,7 +4,7 @@ export const UserQueryContext = createContext();
 
 export const UserQueryProvider = ({ children }) => {
   const [textQuery, setTextQuery] = useState("");
-  const [numQuery, setNumQuery] = useState(0);
+  const [numQuery, setNumQuery] = useState("");
 
   return (
     <UserQueryContext.Provider

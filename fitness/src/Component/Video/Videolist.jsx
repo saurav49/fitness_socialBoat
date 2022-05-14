@@ -14,7 +14,7 @@ const Videolist = () => {
   useEffect(() => {
     (async function () {
       try {
-        if (!textQuery) {
+        if (!textQuery || !numQuery) {
           setVideoList([]);
           return;
         }
@@ -32,7 +32,7 @@ const Videolist = () => {
       }
     })();
   }, [textQuery, numQuery]);
-  console.log({ videoList });
+
   return (
     <>
       {isLoading ? (
@@ -42,9 +42,14 @@ const Videolist = () => {
       ) : (
         <div className={styles.videolist}>
           {Array.isArray(videoList) && videoList.length > 0 ? (
-            videoList.map(({ heading, tags, video }) => {
+            videoList.map(({ heading, tags, video }, idx) => {
               return (
-                <VideoThumbnail heading={heading} tags={tags} video={video} />
+                <VideoThumbnail
+                  heading={heading}
+                  tags={tags}
+                  video={video}
+                  key={idx}
+                />
               );
             })
           ) : (
