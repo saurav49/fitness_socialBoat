@@ -5,6 +5,9 @@ import axios from "axios";
 import { VideoThumbnail } from "../index";
 import styles from "./Video.module.css";
 import Loader from "react-loader-spinner";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { toastErr } from "../../utils";
 
 const Videolist = () => {
   const [videoList, setVideoList] = useState([]);
@@ -28,13 +31,14 @@ const Videolist = () => {
         setLoading(false);
       } catch (error) {
         setLoading(false);
-        console.log(error);
+        toastErr(error.message);
       }
     })();
   }, [textQuery, numQuery]);
 
   return (
     <>
+      <ToastContainer />
       {isLoading ? (
         <div className={styles.loader__wrapper}>
           <Loader type="Bars" color="#333" height={100} width={100} />
