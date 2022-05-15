@@ -1,11 +1,19 @@
 import "./App.css";
-import { Header, Videolist } from "./Component/index";
+import { Header, Videolist, ErrorFallback } from "./Component/index";
+import { ErrorBoundary } from "react-error-boundary";
 
 function App() {
   return (
     <div className="App">
-      <Header />
-      <Videolist />
+      <ErrorBoundary
+        FallbackComponent={ErrorFallback}
+        onReset={() => {
+          window.location.reload();
+        }}
+      >
+        <Header />
+        <Videolist />
+      </ErrorBoundary>
     </div>
   );
 }

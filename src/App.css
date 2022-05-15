@@ -21,3 +21,32 @@ input::-webkit-inner-spin-button {
 input[type=number] {
   -moz-appearance: textfield;
 }
+
+.error__boundary__wrapper {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+}
+
+.error__boundary__wrapper > * {
+  margin: 1em 0em
+}
+
+.btn__err {
+  background-color: #34d399;
+  color: #fff;
+  border-radius: 0.35em;
+  border: none;
+  padding: 1em;
+  transition: background-color 0.5s ease-in;
+  font-size: 1.15rem;
+  cursor: pointer;
+}
+
+.btn__err:hover {
+  background-color: #6ee7b7;
+}
