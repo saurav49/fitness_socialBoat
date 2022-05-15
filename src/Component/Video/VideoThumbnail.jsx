@@ -3,7 +3,6 @@ import { Tags } from "../index";
 import styles from "./Video.module.css";
 
 const VideoThumbnail = ({ heading, tags, video }) => {
-  console.log({ heading });
   return (
     <div className={styles.videothumbnail__wrapper}>
       <div className={styles.video__query__details}>
