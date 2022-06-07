@@ -24,6 +24,16 @@ export { Header };
 const SearchBar = () => {
   const { textQuery, setTextQuery, numQuery, setNumQuery } = useUserQuery();
 
+  // function debounce(fn, delay) {
+  //   let timer;
+  //   return function(...args) {
+  //     clearTimeout(timer);
+  //     timer = setTimeout(() => {
+  //       fn(...args)
+  //     }, delay);
+  //   }
+  // }
+
   return (
     <div
       className={`${styles.d__flex__r} ${styles.d__flex__center__align} ${styles.d__flex__justify__btn} ${styles.input__wrapper}`}

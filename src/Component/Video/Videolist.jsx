@@ -12,29 +12,76 @@ import { toastErr } from "../../utils";
 const Videolist = () => {
   const [videoList, setVideoList] = useState([]);
   const [isLoading, setLoading] = useState(false);
-  const { textQuery, numQuery } = useUserQuery();
+  const { textQuery, numQuery, setTags, tags } = useUserQuery();
+  const [selectedTag, setSelectedTag] = useState({});
+  const [filteredVideos, setFilteredVideos] = useState([]);
 
   useEffect(() => {
-    (async function () {
-      try {
-        if (!textQuery || !numQuery) {
-          setVideoList([]);
-          return;
+    let timer;
+    timer = setTimeout(() => {
+      (async function () {
+        try {
+          if (!textQuery || !numQuery) {
+            setVideoList([]);
+            return;
+          }
+          setLoading(true);
+          const {
+            data: { status, results },
+          } = await axios.get(`${BASE__PATH}`, {
+            params: { q: textQuery, numResults: numQuery },
+          });
+          if (status) {
+            setVideoList(results);
+            let tags = results.map(({ tags }) => [...tags]);
+            let alltags = [];
+            for (let tag of tags) {
+              alltags.push(...tag);
+            }
+            let obj = {};
+            let uniqueTags = {};
+            for (let tag of alltags) {
+              // o(n)
+              if (!obj[tag]) {
+                uniqueTags[tag] = false;
+                obj[tag] = tag;
+              }
+            }
+            // tags = alltags.filter( o(n2)
+            //   (tag, index) => alltags.indexOf(`${tag}`) === index
+            // );
+            setTags(uniqueTags);
+          }
+          setLoading(false);
+        } catch (error) {
+          setLoading(false);
+          toastErr(error.message);
         }
-        setLoading(true);
-        const {
-          data: { status, results },
-        } = await axios.get(`${BASE__PATH}`, {
-          params: { q: textQuery, numResults: numQuery },
-        });
-        status && setVideoList(results);
-        setLoading(false);
-      } catch (error) {
-        setLoading(false);
-        toastErr(error.message);
+      })();
+    }, 1000);
+    return function () {
+      clearTimeout(timer);
+    };
+  }, [textQuery, numQuery, setTags]);
+
+  useEffect(() => {
+    setVideoList((prevState) => {
+      let filter = [];
+      if (prevState && Array.isArray(prevState) && prevState.length > 0) {
+        for (let video of prevState) {
+          for (let tag of video.tags) {
+            if (selectedTag[tag]) {
+              filter.push(video);
+              break;
+            }
+          }
+        }
       }
-    })();
-  }, [textQuery, numQuery]);
+      return filter;
+    });
+  }, [selectedTag]);
+
+  console.log({ selectedTag });
 
   return (
     <>
@@ -44,22 +91,46 @@ const Videolist = () => {
           <Loader type="Bars" color="#333" height={100} width={100} />
         </div>
       ) : (
-        <div className={styles.videolist}>
-          {Array.isArray(videoList) && videoList.length > 0 ? (
-            videoList.map(({ heading, tags, video }, idx) => {
+        <>
+          {tags &&
+            Object.keys(tags).length > 0 &&
+            Object.keys(tags).map((tag, index) => {
               return (
-                <VideoThumbnail
-                  heading={heading}
-                  tags={tags}
-                  video={video}
-                  key={idx}
-                />
+                <>
+                  <label> {tag} </label>
+                  <input
+                    type="checkbox"
+                    key={index}
+                    checked={selectedTag[tag]} // 1
+                    onChange={() =>
+                      setSelectedTag(
+                        (prevState) =>
+                          selectedTag[tag] // 1
+                            ? { ...prevState, [tag]: false } // 1
+                            : { ...prevState, [tag]: true } // 1
+                      )
+                    }
+                  />
+                </>
               );
-            })
-          ) : (
-            <p>No videos to show, Search for videos</p>
-          )}
-        </div>
+            })}
+          <div className={styles.videolist}>
+            {Array.isArray(videoList) && videoList.length > 0 ? (
+              videoList.map(({ heading, tags, video }, idx) => {
+                return (
+                  <VideoThumbnail
+                    heading={heading}
+                    tags={tags}
+                    video={video}
+                    key={idx}
+                  />
+                );
+              })
+            ) : (
+              <p>No videos to show, Search for videos</p>
+            )}
+          </div>
+        </>
       )}
     </>
   );
